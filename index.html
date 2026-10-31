@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en-AU" data-app="rewrite">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rewrite — rewrite any message in the right tone</title>
+<meta name="description" content="Paste a rough draft, choose a tone and channel, and get up to three polished versions with every changed word highlighted.">
+<meta property="og:title" content="Rewrite">
+<meta property="og:description" content="Paste a rough draft, choose a tone and channel, and get up to three polished versions with every changed word highlighted.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lz-rewrite.pages.dev/">
+<meta property="og:image" content="https://lz-rewrite.pages.dev/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="zl.css">
+<link rel="stylesheet" href="styles.css">
+<script src="zl.js"></script>
+</head>
+<body id="top">
+<div data-zl="nav"></div>
+
+<main>
+  <section class="zl-hero zl-wrap">
+    <div data-zl="icon"></div>
+    <h1>Rewrite</h1>
+    <p class="zl-tagline">Say it right the first time.</p>
+    <p class="zl-sub">Paste a rough draft, pick a tone and where it's going. Rewrite gives you up to three polished versions, with every changed word highlighted.</p>
+    <div class="zl-hero-ctas">
+      <a class="zl-btn zl-btn-primary zl-btn-lg" href="#app">Rewrite a message</a>
+      <a class="zl-btn zl-btn-secondary zl-btn-lg" href="#how">See how it works</a>
+    </div>
+    <div class="zl-hero-meta">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Free to try, no sign-up</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>History stays on your device</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Written by Claude</span>
+    </div>
+    <div class="hero-demo" aria-hidden="true">
+      <div class="hd-card hd-before">
+        <div class="hd-meta"><span class="hd-dot"></span>Your draft</div>
+        <p>hey cant make <del>fri</del> anymore, <del>can we do mon or something?</del> sorry</p>
+      </div>
+      <div class="hd-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="hd-card hd-after">
+        <div class="hd-meta"><span class="hd-dot"></span>Professional <span class="hd-chan">Email</span></div>
+        <p><ins>Hi Sam,</ins> <ins>I'm sorry, but I</ins> can't make <ins>Friday</ins> anymore. <ins>Could we move it to Monday instead?</ins></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="zl-stage" id="app" data-nav="App">
+    <div class="zl-wrap">
+      <div class="zl-app">
+        <div class="zl-appbar">
+          <div class="zl-appbar-title">
+            <span class="zl-dot" id="modeDot"></span>Rewrite
+            <span class="mode-pill" id="modePill" data-mode="checking" data-tip="Checking the AI connection">Checking</span>
+            <span class="zl-appbar-status" id="barStatus" aria-live="polite">Ready</span>
+          </div>
+          <button class="zl-btn zl-btn-secondary zl-btn-sm" type="button" id="templatesBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>Templates
+          </button>
+          <button class="zl-btn zl-btn-secondary zl-btn-sm" type="button" id="settingsBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Settings
+          </button>
+        </div>
+
+        <div class="rw-grid">
+          <!-- Composer -->
+          <form class="rw-composer" id="composer" novalidate>
+            <div class="zl-field" id="inputField">
+              <div class="rw-label-row">
+                <label class="zl-label" for="input">Your message</label>
+                <button class="rw-link" type="button" id="clearInput">Clear</button>
+              </div>
+              <textarea class="zl-textarea rw-input" id="input" rows="6" maxlength="6000" placeholder="Paste a rough draft. Typos and run-on sentences are fine." aria-describedby="inputMeta inputError"></textarea>
+              <div class="rw-input-meta">
+                <span class="zl-error" id="inputError" role="alert" hidden></span>
+                <span class="zl-hint num" id="inputMeta">0 words</span>
+              </div>
+            </div>
+
+            <div class="zl-field">
+              <span class="zl-label" id="toneLabel">Tone</span>
+              <div class="rw-chips" id="tones" role="group" aria-labelledby="toneLabel"></div>
+              <label class="zl-label rw-sublabel" for="instruction">Extra instruction <span class="rw-optional">Optional</span></label>
+              <input class="zl-input" id="instruction" maxlength="300" placeholder="e.g. mention I'm free Tuesday">
+            </div>
+
+            <div class="rw-two" id="channelAudience">
+              <div class="zl-field">
+                <span class="zl-label" id="channelLabel">Channel</span>
+                <div class="zl-seg rw-seg-fill" id="channel" role="group" aria-labelledby="channelLabel"></div>
+                <span class="zl-hint" id="channelHint">Adds a subject line.</span>
+              </div>
+              <div class="zl-field">
+                <label class="zl-label" for="audience">Who's it for?</label>
+                <input class="zl-input" id="audience" maxlength="120" placeholder="e.g. my manager, a customer" list="audienceList" autocomplete="off">
+                <datalist id="audienceList"><option value="my manager"><option value="a customer"><option value="my lecturer"><option value="a recruiter"><option value="a close friend"><option value="my landlord"></datalist>
+              </div>
+            </div>
+
+            <div class="rw-two">
+              <div class="zl-field">
+                <div class="rw-label-row"><label class="zl-label" for="length">Length</label><span class="rw-value" id="lengthLabel">About the same</span></div>
+                <input type="range" class="rw-range" id="length" min="-2" max="2" step="1" value="0" aria-valuetext="About the same">
+                <div class="rw-range-ends" aria-hidden="true"><span>Shorter</span><span>Longer</span></div>
+              </div>
+              <div class="zl-field">
+                <span class="zl-label" id="variantsLabel">Versions</span>
+                <div class="zl-seg rw-seg-fill" id="variants" role="group" aria-labelledby="variantsLabel">
+                  <button type="button" data-n="1" aria-pressed="false">1</button>
+                  <button type="button" data-n="2" aria-pressed="false">2</button>
+                  <button type="button" data-n="3" aria-pressed="true">3</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="rw-actions">
+              <button class="zl-btn zl-btn-primary zl-btn-lg rw-go" type="submit" id="go">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>
+                <span id="goLabel">Rewrite</span>
+              </button>
+              <button class="zl-btn zl-btn-secondary zl-btn-lg" type="button" id="stop" hidden>
+                <svg viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="7" width="10" height="10" rx="2"/></svg>Stop
+              </button>
+              <span class="rw-kbd zl-hint" id="kbdHint"><kbd id="kbdMod">Ctrl</kbd><kbd>Enter</kbd></span>
+            </div>
+          </form>
+
+          <!-- Output -->
+          <section class="rw-output" id="output" aria-label="Rewritten versions">
+            <div class="rw-out-head" id="outHead" hidden>
+              <div class="zl-seg rw-tabs" id="tabs" role="tablist" aria-label="Versions"></div>
+              <div class="rw-out-tools" id="variantActions">
+                <button class="zl-btn zl-btn-ghost zl-btn-sm rw-icon-btn" type="button" id="favBtn" aria-pressed="false" data-tip="Save to favourites" aria-label="Save to favourites">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11v9H4.5A1.5 1.5 0 0 1 3 18.5v-6A1.5 1.5 0 0 1 4.5 11zM7 11l4-8a2.5 2.5 0 0 1 2.5 2.5V9h5.2a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.5 20H7"/></svg>
+                </button>
+                <button class="zl-btn zl-btn-secondary zl-btn-sm" type="button" id="useBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v5h-5"/></svg>Use as input
+                </button>
+                <button class="zl-btn zl-btn-primary zl-btn-sm" type="button" id="copyBtn">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></svg>Copy
+                </button>
+              </div>
+            </div>
+
+            <div class="rw-note" id="runNote" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v5.5M12 7.5h.01"/></svg>
+              <span id="runNoteText">Demo mode: this sample was written ahead of time.</span>
+              <button class="rw-link" type="button" id="runNoteBtn">Add your key</button>
+            </div>
+
+            <div class="rw-error" id="outError" role="alert" hidden>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M12 7.5v5.5M12 16.5h.01"/></svg>
+              <div><h3 id="errTitle"></h3><p id="errHint"></p></div>
+              <button class="zl-btn zl-btn-secondary zl-btn-sm" type="button" id="errAction" hidden></button>
+            </div>
+
+            <div class="zl-empty rw-empty" id="outEmpty">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L15.5 5.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M13.5 7.5l3 3"/></svg>
+              <h3>Your rewrite appears here</h3>
+              <p>Write or paste a draft on the left, then press Rewrite. Or start from a real situation:</p>
+              <div class="rw-empty-tpl" id="emptyTemplates"></div>
+            </div>
+
+            <div class="rw-result" id="result" hidden>
+              <div class="rw-foot">
+                <label class="zl-switch rw-diff-switch"><input type="checkbox" id="diffToggle" checked> Highlight changes</label>
+                <div class="rw-stats" id="stats">
+                  <div class="rw-stat"><b class="num" id="statWords">0</b><span>Words</span></div>
+                  <div class="rw-stat"><b class="num" id="statRead">0 s</b><span>Reading time</span></div>
+                  <div class="rw-stat"><b class="num" id="statChanges">0</b><span>Words changed</span></div>
+                </div>
+              </div>
+              <div class="rw-subject" id="subject" hidden><span>Subject</span><strong id="subjectText"></strong></div>
+              <div class="rw-panes" id="panes" data-diff="on">
+                <div class="rw-pane rw-before" id="beforePane">
+                  <h3 class="rw-pane-title">Original</h3>
+                  <div class="rw-text" id="beforeText"></div>
+                </div>
+                <div class="rw-pane rw-after" id="afterPane">
+                  <h3 class="rw-pane-title" id="afterTitle">Version 1</h3>
+                  <div class="rw-text" id="afterText" aria-busy="false"></div>
+                </div>
+              </div>
+            </div>
+            <p class="sr-only" id="srStatus" aria-live="polite"></p>
+          </section>
+        </div>
+
+        <!-- Library -->
+        <section class="rw-library" id="library" aria-labelledby="libTitle">
+          <div class="rw-lib-head">
+            <h2 id="libTitle">Library</h2>
+            <div class="zl-seg" id="libTabs" role="tablist" aria-label="Library">
+              <button type="button" role="tab" id="libTab-history" data-lib="history" aria-selected="true" aria-controls="libList">History <span class="rw-count num" id="histCount">0</span></button>
+              <button type="button" role="tab" id="libTab-favs" data-lib="favs" aria-selected="false" aria-controls="libList">Favourites <span class="rw-count num" id="favCount">0</span></button>
+            </div>
+            <div class="rw-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>
+              <input class="zl-input" type="search" id="libSearch" placeholder="Search" aria-label="Search the library">
+            </div>
+            <button class="zl-btn zl-btn-ghost zl-btn-sm" type="button" id="clearLib">Clear all</button>
+          </div>
+          <ul class="rw-lib-list" id="libList" role="tabpanel" aria-labelledby="libTab-history"></ul>
+          <div class="zl-empty rw-lib-empty" id="libEmpty" hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+            <h3 id="libEmptyTitle">No rewrites yet</h3>
+            <p id="libEmptyText">Your last 20 rewrites are kept here, on this device.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section class="zl-section alt" id="how" data-nav="How it works">
+    <div class="zl-wrap">
+      <div class="zl-section-head zl-reveal"><h2>From rough to ready in three steps.</h2><p>No prompts to write. You choose how it should sound, Rewrite does the wording.</p></div>
+      <div class="zl-steps zl-reveal">
+        <div class="zl-step"><h3>Paste your draft</h3><p>Typos, run-on sentences and missing capitals are fine. Or start from one of eight templates for messages people find hard to write.</p></div>
+        <div class="zl-step"><h3>Choose the tone and channel</h3><p>Pick a tone, say who it's for, and whether it's an email, text, Slack or LinkedIn message. Slide the length shorter or longer.</p></div>
+        <div class="zl-step"><h3>Compare, copy, refine</h3><p>Get up to three versions with every change highlighted. Copy the one you like, or feed it back in and go again.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="zl-section" id="features" data-nav="Features">
+    <div class="zl-wrap">
+      <div class="zl-section-head zl-reveal"><h2>Small tool. Careful details.</h2><p>Everything you need to send the message with confidence, and nothing you don't.</p></div>
+      <div class="zl-bento zl-reveal">
+        <div class="zl-tile wide">
+          <h3>Every change, highlighted.</h3>
+          <p>A word-level diff shows exactly what was cut and what was added, so you can trust the result before you send it.</p>
+          <div class="zl-tile-visual ft-diff" aria-hidden="true">
+            <p><del>hey</del> <ins>Hi Jess,</ins> <ins>I'm following up on</ins> invoice 1042 <del>was due on the 3rd and i havent seen payment come thru yet</del> <ins>for the website work. It was due on the 3rd and hasn't been paid yet.</ins></p>
+            <div class="ft-legend"><span class="ft-rm">13 removed</span><span class="ft-add">19 added</span></div>
+          </div>
+        </div>
+        <div class="zl-tile">
+          <h3>Eight tones</h3>
+          <p>Plus your own instruction on top.</p>
+          <div class="zl-tile-visual ft-tones" aria-hidden="true">
+            <span>Professional</span><span class="on">Confident</span><span>Friendly</span><span>Shorter</span><span>Clearer</span><span>Apology</span><span>Polite decline</span><span>Persuasive</span>
+          </div>
+        </div>
+        <div class="zl-tile">
+          <h3>Three takes at once</h3>
+          <p>Close to yours, restructured, and tightest.</p>
+          <div class="zl-tile-visual ft-versions" aria-hidden="true">
+            <div class="ft-tabs"><span class="on">Version 1</span><span>2</span><span>3</span></div>
+            <div class="ft-lines"><i style="width:92%"></i><i style="width:78%"></i><i style="width:85%"></i><i style="width:46%"></i></div>
+          </div>
+        </div>
+        <div class="zl-tile wide">
+          <h3>Written for where it's going.</h3>
+          <p>Emails get a subject line and a sign-off. Texts stay short. Slack stays scannable. LinkedIn stays warm and brief.</p>
+          <div class="zl-tile-visual ft-channels" aria-hidden="true">
+            <div class="ft-mail"><b>Subject: Invoice 1042 is now overdue</b><span>Hi Jess, I'm following up on…</span></div>
+            <div class="ft-bubble">Sorry, got called in Saturday. Next weekend? Lunch is on me.</div>
+            <div class="ft-slack"><span class="ft-av">P</span><span><b>You</b> I'll sit out Thursday's sync to finish the Q3 report.</span></div>
+          </div>
+        </div>
+        <div class="zl-tile half">
+          <div class="zl-tile-big num">56 <span class="ft-to">→</span> 38</div>
+          <h3>See it get shorter.</h3>
+          <p>Word count, reading time and the number of changed words, before and after, for every version.</p>
+          <div class="zl-tile-visual ft-bars" aria-hidden="true">
+            <div class="ft-bar"><span>Before</span><i style="--w:100%"></i><b class="num">14 s</b></div>
+            <div class="ft-bar ft-bar-after"><span>After</span><i style="--w:68%"></i><b class="num">10 s</b></div>
+          </div>
+        </div>
+        <div class="zl-tile half">
+          <h3>A private AI backend.</h3>
+          <p>Rewrites run through a small server function that holds the key, builds the prompt and limits abuse. Your history never leaves this device.</p>
+          <div class="zl-tile-visual ft-flow" aria-hidden="true">
+            <svg viewBox="0 0 420 72" role="img">
+              <g font-size="13" font-weight="600" fill="currentColor" text-anchor="middle">
+                <rect x="1" y="16" width="110" height="40" rx="12" class="ft-node"/><text x="56" y="41">Your browser</text>
+                <rect x="155" y="16" width="110" height="40" rx="12" class="ft-node ft-node-accent"/><text x="210" y="41" class="ft-node-text">/api/rewrite</text>
+                <rect x="309" y="16" width="110" height="40" rx="12" class="ft-node"/><text x="364" y="41">Claude</text>
+              </g>
+              <g class="ft-wire" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M117 36h32M143 31l6 5-6 5"/><path d="M271 36h32M297 31l6 5-6 5"/></g>
+              <text x="133" y="12" font-size="11" text-anchor="middle" class="ft-cap">draft</text><text x="287" y="12" font-size="11" text-anchor="middle" class="ft-cap">key + prompt</text>
+              <text x="210" y="70" font-size="11" text-anchor="middle" class="ft-cap">10 a minute per visitor</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="zl-section alt" id="faq" data-nav="FAQ">
+    <div class="zl-wrap">
+      <div class="zl-section-head center zl-reveal"><h2>Questions</h2></div>
+      <div class="zl-faq zl-reveal">
+        <details><summary>Is it free?</summary><div>Yes. On lz-rewrite.pages.dev, rewrites run on a hosted AI with a fair-use limit of 10 a minute and 60 a day per visitor. If you need more, add your own Anthropic API key in Settings and usage is billed to your account.</div></details>
+        <details><summary>What happens to the text I paste?</summary><div>Your draft is sent once to generate the rewrite, either through Rewrite's server function or straight to Anthropic if you use your own key. The server doesn't log or store it. Your history and favourites are saved only in this browser.</div></details>
+        <details><summary>What is demo mode?</summary><div>If the hosted AI isn't available, for example on the GitHub Pages mirror, and you haven't added a key, Rewrite plays pre-written rewrites of the eight templates so you can still see how it works. Add a key in Settings to rewrite your own messages.</div></details>
+        <details><summary>Will it change my facts?</summary><div>It's told to keep every name, date, number and commitment, and never invent details. Anything it can't know, like your name, becomes a placeholder such as [Your name]. Turn on Highlight changes to check every edit.</div></details>
+        <details><summary>Does it work in other languages?</summary><div>Yes. It replies in the language of your draft. For English, it matches your spelling, and uses Australian English when it can't tell.</div></details>
+        <details><summary>Is my API key safe?</summary><div>A key you add is stored only in this browser and sent only to api.anthropic.com. Press Forget key in Settings to remove it, which is worth doing on a shared computer.</div></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div data-zl="footer"></div>
+
+<dialog class="zl-dialog rw-dialog" id="settingsDlg" aria-labelledby="settingsTitle">
+  <form method="dialog" id="settingsForm" novalidate>
+    <div class="zl-dialog-head"><h2 id="settingsTitle">Settings</h2><button class="zl-iconbtn" value="close" aria-label="Close settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="zl-dialog-body">
+      <div class="rw-conn" id="connState" data-mode="checking">
+        <span class="rw-conn-dot"></span>
+        <div><b id="connTitle">Checking the connection</b><p id="connText">One moment.</p></div>
+      </div>
+      <div class="zl-field">
+        <label class="zl-label" for="keyInput">Your Anthropic API key</label>
+        <div class="rw-key-row">
+          <input class="zl-input" id="keyInput" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" aria-describedby="keyHint keyError">
+          <button class="zl-btn zl-btn-secondary" type="button" id="showKey" aria-pressed="false">Show</button>
+        </div>
+        <span class="zl-error" id="keyError" role="alert" hidden></span>
+        <span class="zl-hint" id="keyHint">Optional. Stored only in this browser and sent only to api.anthropic.com. Get one at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a>.</span>
+      </div>
+      <div class="zl-field">
+        <label class="zl-label" for="model">Model for your key</label>
+        <select class="zl-select" id="model"></select>
+      </div>
+      <label class="zl-switch"><input type="checkbox" id="preferKey"> Use my key even when hosted AI is available</label>
+    </div>
+    <div class="zl-dialog-foot">
+      <button class="zl-btn zl-btn-danger" type="button" id="forgetKey">Forget key</button>
+      <span class="rw-saved" id="settingsSaved" aria-live="polite"></span>
+      <button class="zl-btn zl-btn-secondary" value="close">Close</button>
+      <button class="zl-btn zl-btn-primary" type="button" id="saveKey">Save key</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="zl-dialog rw-dialog rw-tpl-dialog" id="templatesDlg" aria-labelledby="tplTitle">
+  <form method="dialog">
+    <div class="zl-dialog-head"><h2 id="tplTitle">Templates</h2><button class="zl-iconbtn" value="close" aria-label="Close templates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="zl-dialog-body">
+      <p class="zl-hint rw-tpl-lead">Real situations with a rough sample draft. Pick one to load it, then make it your own.</p>
+      <div class="rw-tpl-grid" id="templateList"></div>
+    </div>
+  </form>
+</dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
